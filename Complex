@@ -1,0 +1,159 @@
+/**
+ * Nicholas Kuras
+ * This class will implement a class named Complex for representing complex numbers
+ */
+
+import java.util.Scanner;
+
+/**
+ * Represents a complex number and provides methods for performing arithmetic operations,
+ * comparing complex numbers, and formatting complex number output.
+ */
+public class Complex implements Comparable<Complex> {
+    private double a;  // Real part of the complex number
+    private double b;  // Imaginary part of the complex number
+
+    /**
+     * Default constructor that creates a complex number equal to 0+0i.
+     */
+    public Complex() {
+        this(0, 0);
+    }
+
+    /**
+     * Constructs a complex number with only real part and zero imaginary part.
+     * @param a the real part of the complex number.
+     */
+    public Complex(double a) {
+        this(a, 0);
+    }
+
+    /**
+     * Constructs a complex number with specified real and imaginary parts.
+     * @param a the real part of the complex number.
+     * @param b the imaginary part of the complex number.
+     */
+    public Complex(double a, double b) {
+        this.a = a;
+        this.b = b;
+    }
+
+    /**
+     * Copy constructor that creates a new complex number by copying another.
+     * @param complexNumber the complex number to be copied.
+     */
+    public Complex(Complex complexNumber) {
+        this.a = complexNumber.a;
+        this.b = complexNumber.b;
+    }
+
+    /**
+     * Returns the real part of the complex number.
+     * @return the real part as a double.
+     */
+    public double getRealPart() {
+        return a;
+    }
+
+    /**
+     * Returns the imaginary part of the complex number.
+     * @return the imaginary part as a double.
+     */
+    public double getImaginaryPart() {
+        return b;
+    }
+
+    /**
+     * Adds this complex number to another complex number.
+     * @param other the complex number to add.
+     * @return the result of the addition as a new Complex object.
+     */
+    public Complex add(Complex other) {
+        return new Complex(this.a + other.a, this.b + other.b);
+    }
+
+    /**
+     * Subtracts another complex number from this one.
+     * @param other the complex number to subtract.
+     * @return the result of the subtraction as a new Complex object.
+     */
+    public Complex subtract(Complex other) {
+        return new Complex(this.a - other.a, this.b - other.b);
+    }
+
+    /**
+     * Multiplies this complex number by another.
+     * @param other the complex number to multiply by.
+     * @return the result of the multiplication as a new Complex object.
+     */
+    public Complex multiply(Complex other) {
+        return new Complex(this.a * other.a - this.b * other.b, 
+                           this.b * other.a + this.a * other.b);
+    }
+
+    /**
+     * Divides this complex number by another.
+     * @param other the complex number to divide by.
+     * @return the result of the division as a new Complex object.
+     */
+    public Complex divide(Complex other) {
+        double denominator = other.a * other.a + other.b * other.b;
+        double realPart = (this.a * other.a + this.b * other.b) / denominator;
+        double imaginaryPart = (this.b * other.a - this.a * other.b) / denominator;
+        return new Complex(realPart, imaginaryPart);
+    }
+
+    /**
+     * Computes the absolute value (magnitude) of this complex number.
+     * @return the magnitude of the complex number as a double.
+     */
+    public double abs() {
+        return Math.sqrt(a * a + b * b);
+    }
+
+    /**
+     * Compares this complex number with another complex number based on their magnitudes.
+     * @param other the complex number to compare with.
+     * @return a negative integer, zero, or a positive integer as this complex number
+     *         is less than, equal to, or greater than the specified complex number.
+     */
+    @Override
+    public int compareTo(Complex other) {
+        return Double.compare(this.abs(), other.abs());
+    }
+
+    /**
+     * Returns a string representation of this complex number in the form "a + bi" or "a - bi".
+     * If the imaginary part is zero, only the real part is returned.
+     * @return the string representation of the complex number.
+     */
+    @Override
+    public String toString() {
+        if (b == 0) return a + "";
+        return "(" + a + (b > 0 ? " + " : " - ") + Math.abs(b) + "i)";
+    }
+
+    /**
+     * Main method for running tests and demonstrating class capabilities.
+     * @param args not used.
+     */
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Enter the first complex number: ");
+        double a1 = input.nextDouble();
+        double b1 = input.nextDouble();
+        Complex c1 = new Complex(a1, b1);
+
+        System.out.print("Enter the second complex number: ");
+        double a2 = input.nextDouble();
+        double b2 = input.nextDouble();
+        Complex c2 = new Complex(a2, b2);
+
+        System.out.println(c1 + " + " + c2 + " = " + c1.add(c2));
+        System.out.println(c1 + " - " + c2 + " = " + c1.subtract(c2));
+        System.out.println(c1 + " * " + c2 + " = " + c1.multiply(c2));
+        System.out.println(c1 + " / " + c2 + " = " + c1.divide(c2));
+        System.out.println("|" + c1 + "| = " + c1.abs());
+        input.close();
+    }
+}
